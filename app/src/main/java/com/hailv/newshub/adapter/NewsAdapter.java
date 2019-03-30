@@ -47,15 +47,13 @@ public class NewsAdapter extends ArrayAdapter<News> {
         tvTitle.setText(news.getTitle());
         tvDesc.setText(news.getDecription());
         Picasso.get().load(news.getThumnail()).into(ivImg);
-
+        /**Set Event Onclick*/
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, NewsActivity.class).putExtra("Article",news));
+                context.startActivity(new Intent(context, NewsActivity.class).putExtra("linkbaiviet",news));
             }
         });
-
-        /**Set Event Onclick*/
         return row;
     }
     /** Show mesage*/

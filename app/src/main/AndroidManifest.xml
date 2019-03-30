@@ -13,10 +13,45 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".NewsActivity"
+            android:name=".danhmuc.GiaiTri"
+            android:label="@string/title_activity_giai_tri"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_news"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".danhmuc.NguoiNoiTieng"
+            android:label="@string/title_activity_nguoi_noi_tieng"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".danhmuc.TamSu"
+            android:label="@string/title_activity_tam_su"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".danhmuc.CuocSong"
+            android:label="@string/title_activity_cuoc_song"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".danhmuc.LamDep"
+            android:label="@string/title_activity_lam_dep"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".danhmuc.ThoiTrang"
+            android:label="@string/title_activity_thoi_trang"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CategoriesActivity"
+            android:label="@string/title_activity_categories"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NewsActivity"
+            android:label="@string/title_activity_news"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait"
@@ -29,8 +64,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
