@@ -3,28 +3,22 @@ package com.hailv.newshub.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class News {
-    private String author;
+import java.io.Serializable;
+
+public class News implements Serializable {
     private String title;
-    private String description;
     private String url;
-    private String urlToImage;
-    private String publishedAt;
-    private String content;
+    private String thumnail;
+    private String decription;
 
-    public News(String title, String description, String urlToImage, String url) {
+    public News() {
+    }
+
+    public News(String title, String url, String thumnail, String decription) {
         this.title = title;
-        this.description = description;
-        this.urlToImage = urlToImage;
         this.url = url;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+        this.thumnail = thumnail;
+        this.decription = decription;
     }
 
     public String getTitle() {
@@ -35,14 +29,6 @@ public class News {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -51,28 +37,19 @@ public class News {
         this.url = url;
     }
 
-    public String getUrlToImage() {
-        return urlToImage;
+    public String getThumnail() {
+        return thumnail;
     }
 
-    public void setUrlToImage(String urlToImage) {
-        this.urlToImage = urlToImage;
+    public void setThumnail(String thumnail) {
+        this.thumnail = thumnail;
     }
 
-    public String getPublishedAt() {
-        return publishedAt;
+    public String getDecription() {
+        return decription;
     }
 
-    public void setPublishedAt(String publishedAt) {
-        this.publishedAt = publishedAt;
+    public void setDecription(String decription) {
+        this.decription = decription;
     }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
 }

@@ -46,7 +46,7 @@ public class NewsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         webView = findViewById(R.id.webView);
-        loadUrl("http://android.com");
+        loadUrl("https://guu.vn/nghien-cuu-khoa-hoc-nhin-vao-nu-cuoi-se-biet-duoc-nguoi-thanh-cong-hay-that-bai-trong-tuong-lai-OxBs5PXx8vQ7g.html");
     }
 
     public void loadUrl(String url){

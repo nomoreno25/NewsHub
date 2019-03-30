@@ -1,6 +1,7 @@
 package com.hailv.newshub.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hailv.newshub.NewsActivity;
 import com.hailv.newshub.R;
 import com.hailv.newshub.model.News;
 import com.squareup.picasso.Picasso;
@@ -43,8 +45,15 @@ public class NewsAdapter extends ArrayAdapter<News> {
         /** Set data to row*/
         final News news = this.objects.get(position);
         tvTitle.setText(news.getTitle());
-        tvDesc.setText(news.getDescription());
-        Picasso.get().load(news.getUrlToImage()).into(ivImg);
+        tvDesc.setText(news.getDecription());
+        Picasso.get().load(news.getThumnail()).into(ivImg);
+
+        row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, NewsActivity.class).putExtra("Article",news));
+            }
+        });
 
         /**Set Event Onclick*/
         return row;
