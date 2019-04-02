@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +17,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.hailv.newshub.model.News;
 
 public class NewsActivity extends AppCompatActivity
@@ -47,6 +51,17 @@ public class NewsActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        TextView tvEmail = headerView.findViewById(R.id.tvEmail);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            String uid = user.getUid();
+            tvEmail.setText(email);
+            Log.e("email",email);
+        }
 
         News news = (News) getIntent().getSerializableExtra("linkbaiviet");
         String linkbaiviet = "https://guu.vn" + news.getUrl();

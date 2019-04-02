@@ -9,13 +9,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity
     public ListView lvMain;
     public ArrayList<News> newsList;
     public NewsAdapter newsAdapter;
-    TextView tvEmail;
 
     public static final String MAIN_URL = "https://guu.vn/";
 
@@ -50,13 +48,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        tvEmail = findViewById(R.id.tvEmail);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        if (firebaseAuth.getCurrentUser() == null){
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,6 +57,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        TextView tvEmail = headerView.findViewById(R.id.tvEmail);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            String uid = user.getUid();
+            tvEmail.setText(email);
+            Log.e("email",email);
+        }
 
         new DownloadTask().execute(MAIN_URL);
     }
