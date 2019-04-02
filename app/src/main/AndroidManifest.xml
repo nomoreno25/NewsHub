@@ -19,10 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".Login.ForgetPasswordActivity"></activity>
-        <activity android:name=".Login.RegisterActivity" >
-
-
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".Login.ForgetPasswordActivity">
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".Login.RegisterActivity" />
         <activity
             android:name=".danhmuc.GiaiTri"
             android:label="@string/title_activity_giai_tri"
@@ -74,18 +77,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".Login.LoginActivity" />
-
-
-        </activity>
         <activity
-            
-
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-
-            
-
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
