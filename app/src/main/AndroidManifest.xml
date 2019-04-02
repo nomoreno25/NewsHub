@@ -18,15 +18,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:screenOrientation="portrait"
-            android:name=".Login.ForgetPasswordActivity"></activity>
+            android:name=".Login.ForgetPasswordActivity">
+        </activity>
         <activity
             android:screenOrientation="portrait"
             android:name=".Login.RegisterActivity" />
-
-
         <activity
             android:name=".danhmuc.GiaiTri"
             android:label="@string/title_activity_giai_tri"
@@ -80,16 +78,10 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".Login.LoginActivity" />
-
         <activity
-            
-
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-
-            
-
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
