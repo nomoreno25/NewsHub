@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hailv.newshub">
 
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET"/>
-=======
-    <uses-permission android:name="android.permission.INTERNET" />
+
+  
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
->>>>>>> ba983df86f78902690a03f9a7e7722e9766d7603
+
+
+  
+
 
     <application
         android:allowBackup="true"
@@ -16,10 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
+
         <activity android:name=".Login.ForgetPasswordActivity"></activity>
         <activity android:name=".Login.RegisterActivity" >
-=======
+
+
         <activity
             android:name=".danhmuc.GiaiTri"
             android:label="@string/title_activity_giai_tri"
@@ -64,27 +67,25 @@
             android:name=".SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
->>>>>>> ba983df86f78902690a03f9a7e7722e9766d7603
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Login.LoginActivity" />
-        <activity
-<<<<<<< HEAD
-            android:name=".SplashScreen"
-            android:theme="@style/AppTheme.NoActionBar">
+
 
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-=======
+            
+
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
->>>>>>> ba983df86f78902690a03f9a7e7722e9766d7603
+
+            
+
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
