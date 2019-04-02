@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".Login.ForgetPasswordActivity"></activity>
-        <activity android:name=".Login.RegisterActivity" >
+        <activity android:name=".Login.RegisterActivity" />
 
 
         <activity
@@ -74,9 +74,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Login.LoginActivity" />
-
-
-        </activity>
+        
         <activity
             
 
