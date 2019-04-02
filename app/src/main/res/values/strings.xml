@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">NewsHub</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Trang chủ</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="title_activity_news">NewsHub</string>
+    <string name="title_activity_categories">Danh mục</string>
+    <string name="title_activity_thoi_trang">Thời trang</string>
+    <string name="title_activity_lam_dep">Làm đẹp</string>
+    <string name="title_activity_cuoc_song">Cuộc sống</string>
+    <string name="title_activity_tam_su">Tâm sự</string>
+    <string name="title_activity_nguoi_noi_tieng">Người nổi tiếng</string>
+    <string name="title_activity_giai_tri">Giải trí</string>
 </resources>

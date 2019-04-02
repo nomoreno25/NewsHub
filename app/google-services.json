@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "546565212828",
+    "firebase_url": "https://project2-71dfe.firebaseio.com",
+    "project_id": "project2-71dfe",
+    "storage_bucket": "project2-71dfe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546565212828:android:a1b2bd10c487bdc5",
+        "android_client_info": {
+          "package_name": "com.hailv.newshub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546565212828-62ds252ranl6ib2jljehfc2br6mqag85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAauhcuB_USDg8oJDxuOYZTe9glmv37sv0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

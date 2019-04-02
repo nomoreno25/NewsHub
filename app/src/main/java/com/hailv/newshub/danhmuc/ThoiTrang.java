@@ -1,8 +1,11 @@
-package com.hailv.newshub;
+package com.hailv.newshub.danhmuc;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,11 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.hailv.newshub.CategoriesActivity;
+import com.hailv.newshub.MainActivity;
+import com.hailv.newshub.R;
 import com.hailv.newshub.adapter.NewsAdapter;
 import com.hailv.newshub.model.News;
 
@@ -27,20 +30,13 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-public class MainActivity extends AppCompatActivity
+public class ThoiTrang extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    public ListView lvMain;
-    public ArrayList<News> newsList;
-    public NewsAdapter newsAdapter;
-
-    public static final String MAIN_URL = "https://guu.vn/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_thoi_trang);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -53,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        new DownloadTask().execute(MAIN_URL);
+        new DownloadTask().execute("https://guu.vn/cat/guu-thoi-trang");
     }
 
     private class DownloadTask extends AsyncTask<String, Void, ArrayList<News>> {
@@ -107,9 +103,9 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(ArrayList<News> news) {
             super.onPostExecute(news);
             //Setup data recyclerView
-            lvMain = findViewById(R.id.lvMain);
-            newsAdapter = new NewsAdapter(MainActivity.this,R.layout.item_main,news);
-            lvMain.setAdapter(newsAdapter);
+            ListView listView = findViewById(R.id.listView);
+            NewsAdapter newsAdapter = new NewsAdapter(ThoiTrang.this,R.layout.item_main,news);
+            listView.setAdapter(newsAdapter);
             newsAdapter.notifyDataSetChanged();
         }
     }
@@ -127,7 +123,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.thoi_trang, menu);
         return true;
     }
 
@@ -153,16 +149,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_main) {
-            MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.class));
-            MainActivity.this.finish();
+            startActivity(new Intent(ThoiTrang.this, MainActivity.class));
+            finish();
         } else if (id == R.id.nav_categories) {
-            MainActivity.this.startActivity(new Intent(MainActivity.this, CategoriesActivity.class));
-            MainActivity.this.finish();
+            startActivity(new Intent(ThoiTrang.this, CategoriesActivity.class));
+            finish();
         } else if (id == R.id.nav_favorites) {
 
         } else if (id == R.id.nav_logout) {
-            MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.class));
-            MainActivity.this.finish();
+            startActivity(new Intent(ThoiTrang.this, MainActivity.class));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
