@@ -25,6 +25,8 @@
             />
 
         <EditText
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,6 +36,8 @@
             />
 
         <EditText
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
@@ -42,6 +46,8 @@
             android:inputType="textEmailAddress"
             />
         <EditText
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Mật Khẩu"
@@ -50,6 +56,8 @@
             android:inputType="textPassword"
             />
         <EditText
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập Lại Mật Khẩu"
@@ -59,6 +67,8 @@
             />
 
         <Button
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Đăng Ký"
@@ -78,6 +88,7 @@
         android:gravity="center">
 
         <TextView
+            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đã có tài khoản? Đăng nhập"
