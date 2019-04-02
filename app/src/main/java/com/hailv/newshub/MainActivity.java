@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
     public ListView lvMain;
     public ArrayList<News> newsList;
     public NewsAdapter newsAdapter;
-    TextView tvEmail;
+    private TextView tvEmail;
 
     public static final String MAIN_URL = "https://guu.vn/";
 

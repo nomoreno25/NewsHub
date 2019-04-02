@@ -22,7 +22,7 @@ import com.hailv.newshub.R;
 import org.w3c.dom.Text;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
-    EditText etRetk , etRemk , etRee , etReremk;
+    EditText  etRemk , etRee , etReremk;
     Button btnDangky;
     TextView tvExist;
     private ProgressDialog progressDialog;
@@ -51,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void Anhxa() {
-        etRetk = findViewById(R.id.etRetk);
         etRemk = findViewById(R.id.etRemk);
         etRee = findViewById(R.id.etRee);
         etReremk = findViewById(R.id.etReremk);
@@ -63,6 +62,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void registerUser() {
         String email = etRee.getText().toString().trim();
         String pass = etRemk.getText().toString().trim();
+        String repass = etReremk.getText().toString().trim();
+
+
 
         if (TextUtils.isEmpty(email)){
             Toast.makeText(this,"Mời bạn nhập Email!",Toast.LENGTH_SHORT).show();
@@ -74,8 +76,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
+        if (TextUtils.isEmpty(repass) || !repass.equalsIgnoreCase(pass)){
+            Toast.makeText(this, "Mời bạn nhập lại mật khẩu!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
+
 
         firebaseAuth.createUserWithEmailAndPassword(email,pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
