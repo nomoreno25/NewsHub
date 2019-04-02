@@ -14,8 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.hailv.newshub.Login.LoginActivity;
 import com.hailv.newshub.adapter.NewsAdapter;
 import com.hailv.newshub.model.News;
 
@@ -34,8 +38,11 @@ public class MainActivity extends AppCompatActivity
     public ListView lvMain;
     public ArrayList<News> newsList;
     public NewsAdapter newsAdapter;
+    TextView tvEmail;
 
     public static final String MAIN_URL = "https://guu.vn/";
+
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        tvEmail = findViewById(R.id.tvEmail);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null){
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        tvEmail.setText(user.getEmail());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -161,7 +178,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_favorites) {
 
         } else if (id == R.id.nav_logout) {
-            MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.class));
+            firebaseAuth.signOut();
+            finish();
+            MainActivity.this.startActivity(new Intent(MainActivity.this, LoginActivity.class));
             MainActivity.this.finish();
         }
 
