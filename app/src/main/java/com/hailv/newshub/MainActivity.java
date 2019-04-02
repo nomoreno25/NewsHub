@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        tvEmail.setText(user.getEmail());
+//        FirebaseUser user = firebaseAuth.getCurrentUser();
+//        tvEmail.setText("Welcome "+ user.getEmail());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
