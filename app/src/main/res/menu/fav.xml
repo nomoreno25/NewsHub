@@ -2,9 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_fav"
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
         android:title="@string/action_settings"
-        android:icon="@drawable/ic_btn_unfav"
-        android:checkable="true"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

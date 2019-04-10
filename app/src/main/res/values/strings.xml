@@ -15,4 +15,5 @@
     <string name="title_activity_tam_su">Tâm sự</string>
     <string name="title_activity_nguoi_noi_tieng">Người nổi tiếng</string>
     <string name="title_activity_giai_tri">Giải trí</string>
+    <string name="title_activity_fav">FavActivity</string>
 </resources>
