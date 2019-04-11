@@ -101,7 +101,8 @@ public class CategoriesActivity extends AppCompatActivity
             CategoriesActivity.this.startActivity(new Intent(CategoriesActivity.this, CategoriesActivity.class));
             CategoriesActivity.this.finish();
         } else if (id == R.id.nav_favorites) {
-
+            startActivity(new Intent(CategoriesActivity.this, FavActivity.class));
+            finish();
         } else if (id == R.id.nav_logout) {
             CategoriesActivity.this.startActivity(new Intent(CategoriesActivity.this, MainActivity.class));
             CategoriesActivity.this.finish();

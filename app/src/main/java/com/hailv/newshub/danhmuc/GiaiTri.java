@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.hailv.newshub.CategoriesActivity;
+import com.hailv.newshub.FavActivity;
 import com.hailv.newshub.MainActivity;
 import com.hailv.newshub.R;
 import com.hailv.newshub.adapter.NewsAdapter;
@@ -170,7 +171,8 @@ public class GiaiTri extends AppCompatActivity
             startActivity(new Intent(GiaiTri.this, CategoriesActivity.class));
             finish();
         } else if (id == R.id.nav_favorites) {
-
+            startActivity(new Intent(GiaiTri.this, FavActivity.class));
+            finish();
         } else if (id == R.id.nav_logout) {
             startActivity(new Intent(GiaiTri.this, MainActivity.class));
             finish();

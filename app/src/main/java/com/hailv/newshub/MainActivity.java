@@ -1,4 +1,4 @@
-package com.hailv.newshub;
+﻿package com.hailv.newshub;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity
     public ListView lvMain;
     public ArrayList<News> newsList;
     public NewsAdapter newsAdapter;
-    private TextView tvEmail;
 
     public static final String MAIN_URL = "https://guu.vn/";
 
@@ -178,10 +177,13 @@ public class MainActivity extends AppCompatActivity
             MainActivity.this.startActivity(new Intent(MainActivity.this, CategoriesActivity.class));
             MainActivity.this.finish();
         } else if (id == R.id.nav_favorites) {
-
+            MainActivity.this.startActivity(new Intent(MainActivity.this, FavActivity.class));
+            MainActivity.this.finish();
         } else if (id == R.id.nav_logout) {
             firebaseAuth.getInstance().signOut();
+
             finish();
+
             MainActivity.this.startActivity(new Intent(MainActivity.this, LoginActivity.class));
             MainActivity.this.finish();
         }

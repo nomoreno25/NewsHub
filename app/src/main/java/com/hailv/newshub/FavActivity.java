@@ -1,7 +1,7 @@
-package com.hailv.newshub.danhmuc;
+package com.hailv.newshub;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,28 +20,33 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.hailv.newshub.CategoriesActivity;
-import com.hailv.newshub.FavActivity;
-import com.hailv.newshub.MainActivity;
-import com.hailv.newshub.R;
+import com.hailv.newshub.Login.LoginActivity;
 import com.hailv.newshub.adapter.NewsAdapter;
 import com.hailv.newshub.model.News;
+import com.hailv.newshub.model.PrefManager;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
 
-public class LamDep extends AppCompatActivity
+public class FavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FirebaseAuth firebaseAuth;
+    private ListView lvFav;
+    private ArrayList<News> newsList;
+    private NewsAdapter newsAdapter;
+    private ArrayList<News> news;
+    private PrefManager prefManager;
+    private SharedPreferences shared;
+    private ArrayList<String> arrTitle;
+    private ArrayList<String> arrDesc;
+    private ArrayList<String> arrThumbnail;
+    private ArrayList<String> arrUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lam_dep);
+        setContentView(R.layout.activity_fav);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,66 +69,44 @@ public class LamDep extends AppCompatActivity
             tvEmail.setText(email);
             Log.e("email",email);
         }
-
-        new DownloadTask().execute("https://guu.vn/cat/guu-lam-dep");
+        shared = getSharedPreferences("listnews", MODE_PRIVATE);
+        if(arrTitle==null){
+            arrTitle = new ArrayList<>();
+        }
+        if (arrDesc==null){
+            arrDesc = new ArrayList<>();
+        }
+        if (arrThumbnail==null){
+            arrThumbnail = new ArrayList<>();
+        }
+        if (arrUrl==null){
+            arrUrl = new ArrayList<>();
+        }
+        retriveSharedValue();
+        news = new ArrayList<>();
+        int i = 0;
+        for (i = 0;i<arrTitle.size();i++){
+            news.add(new News(arrTitle.get(i),arrUrl.get(i),arrThumbnail.get(i),arrDesc.get(i)));
+        }
+        loadListView();
     }
 
-    private class DownloadTask extends AsyncTask<String, Void, ArrayList<News>> {
+    private void retriveSharedValue() {
+        Set<String> setTitle = shared.getStringSet("TITLE_LIST", null);
+        Set<String> setDesc = shared.getStringSet("DESC_LIST", null);
+        Set<String> setThumbnail = shared.getStringSet("THUMBNAIL_LIST", null);
+        Set<String> setUrl = shared.getStringSet("URL_LIST", null);
+        arrTitle.addAll(setTitle);
+        arrDesc.addAll(setDesc);
+        arrThumbnail.addAll(setThumbnail);
+        arrUrl.addAll(setUrl);
+    }
 
-        private static final String TAG = "DownloadTask";
-
-        @Override
-        protected ArrayList<News> doInBackground(String... strings) {
-            Document document = null;
-            ArrayList<News> listArticle = new ArrayList<>();
-            try {
-                document = (Document) Jsoup.connect(strings[0]).get();
-                if (document != null) {
-                    //Lấy  html có thẻ như sau: div#latest-news > div.row > div.col-md-6 hoặc chỉ cần dùng  div.col-md-6
-                    Elements sub = document.select("div#latest-news > div.row > div.col-md-6");
-                    for (Element element : sub) {
-                        News news = new News();
-                        Element titleSubject = element.getElementsByTag("h3").first();
-                        Element imgSubject = element.getElementsByTag("img").first();
-                        Element linkSubject = element.getElementsByTag("a").first();
-                        Element descrip = element.getElementsByTag("h4").first();
-                        //Parse to model
-                        if (titleSubject != null) {
-                            String title = titleSubject.text();
-                            news.setTitle(title);
-                        }
-                        if (imgSubject != null) {
-                            String src = imgSubject.attr("src");
-                            news.setThumnail(src);
-                        }
-                        if (linkSubject != null) {
-                            String link = linkSubject.attr("href");
-                            news.setUrl(link);
-                        }
-                        if (descrip != null) {
-                            String des = descrip.text();
-                            news.setDecription(des);
-                        }
-                        //Add to list
-                        listArticle.add(news);
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return listArticle;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<News> news) {
-            super.onPostExecute(news);
-            //Setup data recyclerView
-            ListView listView = findViewById(R.id.listView);
-            NewsAdapter newsAdapter = new NewsAdapter(LamDep.this,R.layout.item_main,news);
-            listView.setAdapter(newsAdapter);
-            newsAdapter.notifyDataSetChanged();
-        }
+    private void loadListView(){
+        lvFav = findViewById(R.id.lvFav);
+        newsAdapter = new NewsAdapter(FavActivity.this,R.layout.item_main,news);
+        lvFav.setAdapter(newsAdapter);
+        newsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -139,7 +122,7 @@ public class LamDep extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.lam_dep, menu);
+        getMenuInflater().inflate(R.menu.fav, menu);
         return true;
     }
 
@@ -165,16 +148,17 @@ public class LamDep extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_main) {
-            startActivity(new Intent(LamDep.this, MainActivity.class));
+            startActivity(new Intent(FavActivity.this, MainActivity.class));
             finish();
         } else if (id == R.id.nav_categories) {
-            startActivity(new Intent(LamDep.this, CategoriesActivity.class));
+            startActivity(new Intent(FavActivity.this, CategoriesActivity.class));
             finish();
         } else if (id == R.id.nav_favorites) {
-            startActivity(new Intent(LamDep.this, FavActivity.class));
+            startActivity(new Intent(FavActivity.this, FavActivity.class));
             finish();
         } else if (id == R.id.nav_logout) {
-            startActivity(new Intent(LamDep.this, MainActivity.class));
+            firebaseAuth.getInstance().signOut();
+            startActivity(new Intent(FavActivity.this, LoginActivity.class));
             finish();
         }
 

@@ -1,8 +1,10 @@
 package com.hailv.newshub;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -17,15 +19,30 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 import com.hailv.newshub.model.News;
+import com.hailv.newshub.model.PrefManager;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class NewsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public WebView webView;
+    private PrefManager prefManager;
+    private News news;
+    private SharedPreferences shared;
+    private ArrayList<String> arrTitle;
+    private ArrayList<String> arrDesc;
+    private ArrayList<String> arrThumbnail;
+    private ArrayList<String> arrUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,23 +71,64 @@ public class NewsActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         TextView tvEmail = headerView.findViewById(R.id.tvEmail);
 
+        prefManager = new PrefManager(this);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String name = user.getDisplayName();
             String email = user.getEmail();
             String uid = user.getUid();
             tvEmail.setText(email);
-            Log.e("email",email);
+            Log.e("email", email);
         }
 
-        News news = (News) getIntent().getSerializableExtra("linkbaiviet");
+        news = (News) getIntent().getSerializableExtra("linkbaiviet");
+        String tieude = news.getTitle();
+        String mota = news.getDecription();
+        String hinhanh = news.getThumnail();
         String linkbaiviet = "https://guu.vn" + news.getUrl();
 
         webView = findViewById(R.id.webView);
         loadUrl(linkbaiviet);
+
+        shared = getSharedPreferences("listnews", MODE_PRIVATE);
+        // add values for your ArrayList any where...
+        if (arrTitle == null) {
+            arrTitle = new ArrayList<>();
+        }
+        if (arrDesc == null) {
+            arrDesc = new ArrayList<>();
+        }
+        if (arrThumbnail == null) {
+            arrThumbnail = new ArrayList<>();
+        }
+        if (arrUrl == null) {
+            arrUrl = new ArrayList<>();
+        }
+        arrTitle.add(tieude);
+        arrDesc.add(mota);
+        arrThumbnail.add(hinhanh);
+        arrUrl.add(linkbaiviet);
     }
 
-    public void loadUrl(String url){
+    private void packagesharedPreferences() {
+        SharedPreferences.Editor editor = shared.edit();
+        Set<String> setTitle = new HashSet<String>();
+        Set<String> setDesc = new HashSet<String>();
+        Set<String> setThumbnail = new HashSet<String>();
+        Set<String> setUrl = new HashSet<String>();
+        setTitle.addAll(arrTitle);
+        setDesc.addAll(arrDesc);
+        setThumbnail.addAll(arrThumbnail);
+        setUrl.addAll(arrUrl);
+        editor.putStringSet("TITLE_LIST", setTitle);
+        editor.putStringSet("DESC_LIST", setDesc);
+        editor.putStringSet("THUMBNAIL_LIST", setThumbnail);
+        editor.putStringSet("URL_LIST", setUrl);
+        editor.apply();
+    }
+
+    public void loadUrl(String url) {
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -92,7 +150,8 @@ public class NewsActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.news, menu);
-        return true;
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -103,7 +162,8 @@ public class NewsActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_fav) {
+            packagesharedPreferences();
             return true;
         }
 
@@ -123,7 +183,8 @@ public class NewsActivity extends AppCompatActivity
             NewsActivity.this.startActivity(new Intent(NewsActivity.this, CategoriesActivity.class));
             NewsActivity.this.finish();
         } else if (id == R.id.nav_favorites) {
-
+            startActivity(new Intent(NewsActivity.this, FavActivity.class));
+            finish();
         } else if (id == R.id.nav_logout) {
             NewsActivity.this.startActivity(new Intent(NewsActivity.this, MainActivity.class));
             NewsActivity.this.finish();
