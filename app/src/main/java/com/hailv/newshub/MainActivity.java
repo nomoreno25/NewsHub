@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_favorites) {
 
         } else if (id == R.id.nav_logout) {
-            firebaseAuth.signOut();
+            firebaseAuth.getInstance().signOut();
             finish();
             MainActivity.this.startActivity(new Intent(MainActivity.this, LoginActivity.class));
             MainActivity.this.finish();

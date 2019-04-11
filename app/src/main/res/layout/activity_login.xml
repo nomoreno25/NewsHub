@@ -56,12 +56,16 @@
             android:textColor="#FFFFFF"
             android:layout_marginTop="15dp"
             android:id="@+id/btnDangnhap"/>
-        <Button
+        <com.facebook.login.widget.LoginButton
+            xmlns:facebook="http://schemas.android.com/apk/res-auto"
+            facebook:com_facebook_login_text="ĐĂNG NHẬP BĂNG FACEBOOK"
+            android:textSize="13dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đăng Nhập Bằng Facebook"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:background="#253B81"
             android:textColor="#FFFFFF"
             android:layout_marginTop="5dp"
@@ -71,8 +75,8 @@
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đăng Nhập Bằng Google"
             android:background="#E13434"
+            android:text="Đăng nhập bằng google"
             android:textColor="#FFFFFF"
             android:layout_marginTop="5dp"
             android:id="@+id/btnGoogle"/>
