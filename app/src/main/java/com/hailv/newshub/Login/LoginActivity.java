@@ -1,4 +1,4 @@
-package com.hailv.newshub.Login;
+﻿package com.hailv.newshub.Login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
