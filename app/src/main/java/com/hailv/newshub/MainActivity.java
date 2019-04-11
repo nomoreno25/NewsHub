@@ -1,4 +1,4 @@
-﻿package com.hailv.newshub;
+package com.hailv.newshub;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+//    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -179,7 +179,6 @@ public class MainActivity extends AppCompatActivity
             MainActivity.this.finish();
         } else if (id == R.id.nav_logout) {
             firebaseAuth.getInstance().signOut();
-
             finish();
 
             MainActivity.this.startActivity(new Intent(MainActivity.this, LoginActivity.class));

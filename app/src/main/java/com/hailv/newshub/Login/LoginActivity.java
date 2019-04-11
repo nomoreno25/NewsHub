@@ -1,11 +1,8 @@
-package com.hailv.newshub.Login;
+﻿package com.hailv.newshub.Login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,29 +19,19 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.hailv.newshub.MainActivity;
 import com.hailv.newshub.R;
-
-import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     EditText etTaikhoan;
@@ -86,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog = new ProgressDialog(this);
 
         Anhxa();
-        btnFacebook.setReadPermissions("email");
+        btnFacebook.setReadPermissions("email", "public_profile", "user_friends");
 
         btnDangnhap.setOnClickListener(this);
         tvDangky.setOnClickListener(this);
@@ -166,6 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         AuthCredential credential = GoogleAuthProvider
                 .getCredential(account.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
+
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -180,6 +168,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.w("TAG","??ng nh?p th?t b?i", task.getException());
                             Toast.makeText(getApplicationContext(), "??ng nh?p th?t b?i!",Toast.LENGTH_LONG).show();
                         }
+
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()){
+                        Log.d("TAG", "đăng nhập thành công");
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Log.w("TAG","đăng nhập thất bại", task.getException());
+                        Toast.makeText(getApplicationContext(), "Đăng nhập thất bại!",Toast.LENGTH_LONG).show();
+
                     }
                 });
 
@@ -201,7 +202,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(FacebookException error) {
-
+                Toast.makeText(LoginActivity.this, "Đăng nhập thất bại" + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -209,6 +210,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void handleFacebookAccessToken(AccessToken accessToken){
         AuthCredential fCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
         firebaseAuth.signInWithCredential(fCredential)
+
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -222,6 +224,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(LoginActivity.this, "B?n ?? ??ng nh?p v?i email: "+email, Toast.LENGTH_SHORT).show();
             }
         });
+
+                .addOnFailureListener(e -> {
+                    Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("ERROR_EDMT", ""+e.getMessage());
+                }).addOnSuccessListener(authResult -> {
+                    String email = authResult.getUser().getEmail();
+                    Toast.makeText(LoginActivity.this, "Bạn đã đăng nhập với email: "+email, Toast.LENGTH_SHORT).show();
+                });
+
     }
 
     private void userLogin() {
@@ -242,6 +253,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.show();
 
         firebaseAuth.signInWithEmailAndPassword(taikhoan,matkhau)
+
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -252,6 +264,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         } else {
                             Toast.makeText(LoginActivity.this,"Sai m?t kh?u!",Toast.LENGTH_SHORT).show();
                         }
+
+                .addOnCompleteListener(this, task -> {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()){
+                        finish();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    } else {
+                        Toast.makeText(LoginActivity.this,"Sai mật khẩu!",Toast.LENGTH_SHORT).show();
+
                     }
                 });
     }
