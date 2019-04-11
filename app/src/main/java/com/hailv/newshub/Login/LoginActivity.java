@@ -1,4 +1,4 @@
-﻿package com.hailv.newshub.Login;
+package com.hailv.newshub.Login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog = new ProgressDialog(this);
 
         Anhxa();
-        btnFacebook.setReadPermissions("email", "public_profile", "user_friends");
+        btnFacebook.setReadPermissions("email", "public_profile");
 
         btnDangnhap.setOnClickListener(this);
         tvDangky.setOnClickListener(this);
