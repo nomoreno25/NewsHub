@@ -153,22 +153,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         AuthCredential credential = GoogleAuthProvider
                 .getCredential(account.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
-
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Log.d("TAG", "??ng nh?p th?nh c?ng");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            Toast.makeText(getApplicationContext(), "??ng nh?p th?nh c?ng!",Toast.LENGTH_LONG).show();
-
-                        } else {
-                            Log.w("TAG","??ng nh?p th?t b?i", task.getException());
-                            Toast.makeText(getApplicationContext(), "??ng nh?p th?t b?i!",Toast.LENGTH_LONG).show();
-                        }
-
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()){
                         Log.d("TAG", "đăng nhập thành công");
@@ -180,7 +164,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     } else {
                         Log.w("TAG","đăng nhập thất bại", task.getException());
                         Toast.makeText(getApplicationContext(), "Đăng nhập thất bại!",Toast.LENGTH_LONG).show();
-
                     }
                 });
 
@@ -210,21 +193,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void handleFacebookAccessToken(AccessToken accessToken){
         AuthCredential fCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
         firebaseAuth.signInWithCredential(fCredential)
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("ERROR_EDMT", ""+e.getMessage());
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                String email = authResult.getUser().getEmail();
-                Toast.makeText(LoginActivity.this, "B?n ?? ??ng nh?p v?i email: "+email, Toast.LENGTH_SHORT).show();
-            }
-        });
-
                 .addOnFailureListener(e -> {
                     Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("ERROR_EDMT", ""+e.getMessage());
@@ -232,7 +200,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String email = authResult.getUser().getEmail();
                     Toast.makeText(LoginActivity.this, "Bạn đã đăng nhập với email: "+email, Toast.LENGTH_SHORT).show();
                 });
-
     }
 
     private void userLogin() {
@@ -240,31 +207,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String matkhau = etMatkhau.getText().toString().trim();
 
         if (TextUtils.isEmpty(taikhoan)){
-            Toast.makeText(this,"M?i b?n nh?p t?i kho?n!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Mời bạn nhập tài khoản!",Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(matkhau)){
-            Toast.makeText(this,"M?i b?n nh?p m?t kh?u!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Mời bạn nhập mật khẩu!",Toast.LENGTH_SHORT).show();
             return;
         }
 
-        progressDialog.setMessage("?ang ??ng nh?p...");
+        progressDialog.setMessage("Đang đăng nhập...");
         progressDialog.show();
 
         firebaseAuth.signInWithEmailAndPassword(taikhoan,matkhau)
-
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()){
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        } else {
-                            Toast.makeText(LoginActivity.this,"Sai m?t kh?u!",Toast.LENGTH_SHORT).show();
-                        }
-
                 .addOnCompleteListener(this, task -> {
                     progressDialog.dismiss();
                     if (task.isSuccessful()){
@@ -272,7 +227,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else {
                         Toast.makeText(LoginActivity.this,"Sai mật khẩu!",Toast.LENGTH_SHORT).show();
-
                     }
                 });
     }
