@@ -108,7 +108,7 @@ public class NewsActivity extends AppCompatActivity
         arrTitle.add(tieude);
         arrDesc.add(mota);
         arrThumbnail.add(hinhanh);
-        arrUrl.add(linkbaiviet);
+        arrUrl.add(news.getUrl());
     }
 
     private void packagesharedPreferences() {
