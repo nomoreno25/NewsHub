@@ -2,6 +2,7 @@ package com.hailv.newshub.Login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,8 +25,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,11 +38,11 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.hailv.newshub.MainActivity;
 import com.hailv.newshub.R;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     EditText etTaikhoan;
     EditText etMatkhau;
-    Button btnDangnhap , btnGoogle;
-    TextView tvQuenmatkhau , tvDangky;
+    Button btnDangnhap, btnGoogle;
+    TextView tvQuenmatkhau, tvDangky;
     LoginButton btnFacebook;
 
     CallbackManager callbackManager;
@@ -63,9 +68,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
-        if (firebaseAuth.getCurrentUser() != null){
+        if (firebaseAuth.getCurrentUser() != null) {
             finish();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
@@ -92,8 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-
-    private void Anhxa () {
+    private void Anhxa() {
         etTaikhoan = findViewById(R.id.etTaikhoan);
         etMatkhau = findViewById(R.id.etMatkhau);
         btnDangnhap = findViewById(R.id.btnDangnhap);
@@ -105,20 +109,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == btnDangnhap){
+        if (v == btnDangnhap) {
             userLogin();
         }
-        if (v == tvDangky){
+        if (v == tvDangky) {
             finish();
-            startActivity(new Intent(this,RegisterActivity.class));
+            startActivity(new Intent(this, RegisterActivity.class));
         }
-        if (v == tvQuenmatkhau){
-            startActivity(new Intent(this,ForgetPasswordActivity.class));
+        if (v == tvQuenmatkhau) {
+            startActivity(new Intent(this, ForgetPasswordActivity.class));
         }
-        if (v == btnFacebook){
+        if (v == btnFacebook) {
             facebookLogin();
         }
-        if (v == btnGoogle){
+        if (v == btnGoogle) {
             googleLogin();
         }
     }
@@ -134,14 +138,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == GOOGLE_SIGN){
+        if (requestCode == GOOGLE_SIGN) {
             Task<GoogleSignInAccount> task = GoogleSignIn
                     .getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
 
-            }   catch (ApiException e) {
+            } catch (ApiException e) {
                 e.printStackTrace();
             }
         }
@@ -157,29 +161,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Log.d("TAG", "??ng nh?p th?nh c?ng");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
 
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            Toast.makeText(getApplicationContext(), "??ng nh?p th?nh c?ng!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "??ng nh?p th?nh c?ng!", Toast.LENGTH_LONG).show();
 
                         } else {
-                            Log.w("TAG","??ng nh?p th?t b?i", task.getException());
-                            Toast.makeText(getApplicationContext(), "??ng nh?p th?t b?i!",Toast.LENGTH_LONG).show();
+                            Log.w("TAG", "??ng nh?p th?t b?i", task.getException());
+                            Toast.makeText(getApplicationContext(), "??ng nh?p th?t b?i!", Toast.LENGTH_LONG).show();
                         }
+                    }
 
+
+                })
                 .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         Log.d("TAG", "đăng nhập thành công");
                         FirebaseUser user = firebaseAuth.getCurrentUser();
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
 
                     } else {
-                        Log.w("TAG","đăng nhập thất bại", task.getException());
-                        Toast.makeText(getApplicationContext(), "Đăng nhập thất bại!",Toast.LENGTH_LONG).show();
+                        Log.w("TAG", "đăng nhập thất bại", task.getException());
+                        Toast.makeText(getApplicationContext(), "Đăng nhập thất bại!", Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -192,7 +199,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAccessToken(loginResult.getAccessToken());
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
 
             @Override
@@ -207,31 +214,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void handleFacebookAccessToken(AccessToken accessToken){
+    private void handleFacebookAccessToken(AccessToken accessToken) {
         AuthCredential fCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
         firebaseAuth.signInWithCredential(fCredential)
 
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("ERROR_EDMT", ""+e.getMessage());
+                        Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("ERROR_EDMT", "" + e.getMessage());
                     }
                 }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
                 String email = authResult.getUser().getEmail();
-                Toast.makeText(LoginActivity.this, "B?n ?? ??ng nh?p v?i email: "+email, Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "B?n ?? ??ng nh?p v?i email: " + email, Toast.LENGTH_SHORT).show();
             }
-        });
+        })
 
                 .addOnFailureListener(e -> {
-                    Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e("ERROR_EDMT", ""+e.getMessage());
+                    Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("ERROR_EDMT", "" + e.getMessage());
                 }).addOnSuccessListener(authResult -> {
-                    String email = authResult.getUser().getEmail();
-                    Toast.makeText(LoginActivity.this, "Bạn đã đăng nhập với email: "+email, Toast.LENGTH_SHORT).show();
-                });
+            String email = authResult.getUser().getEmail();
+            Toast.makeText(LoginActivity.this, "Bạn đã đăng nhập với email: " + email, Toast.LENGTH_SHORT).show();
+        });
 
     }
 
@@ -239,39 +246,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String taikhoan = etTaikhoan.getText().toString().trim();
         String matkhau = etMatkhau.getText().toString().trim();
 
-        if (TextUtils.isEmpty(taikhoan)){
-            Toast.makeText(this,"M?i b?n nh?p t?i kho?n!",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(taikhoan)) {
+            Toast.makeText(this, "M?i b?n nh?p t?i kho?n!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(matkhau)){
-            Toast.makeText(this,"M?i b?n nh?p m?t kh?u!",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(matkhau)) {
+            Toast.makeText(this, "M?i b?n nh?p m?t kh?u!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         progressDialog.setMessage("?ang ??ng nh?p...");
         progressDialog.show();
 
-        firebaseAuth.signInWithEmailAndPassword(taikhoan,matkhau)
+        firebaseAuth.signInWithEmailAndPassword(taikhoan, matkhau)
 
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             finish();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
-                            Toast.makeText(LoginActivity.this,"Sai m?t kh?u!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Sai m?t kh?u!", Toast.LENGTH_SHORT).show();
                         }
+                    }
 
+                    ;
+                })
                 .addOnCompleteListener(this, task -> {
                     progressDialog.dismiss();
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         finish();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else {
-                        Toast.makeText(LoginActivity.this,"Sai mật khẩu!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Sai mật khẩu!", Toast.LENGTH_SHORT).show();
 
                     }
                 });
